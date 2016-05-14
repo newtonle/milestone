@@ -1,8 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
-from bokeh.plotting import figure
-from bokeh.charts import TimeSeries
-from bokeh.embed import components
-
+from flask import Flask, render_template, request, redirect
 
 app = Flask(__name__)
 
