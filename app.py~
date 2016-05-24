@@ -7,7 +7,8 @@ import requests
 import os
 import datetime
 
-api_key = os.environ['API_KEY']
+#api_key = os.environ['API_KEY']
+api_key = 'PzaxdxNpHYtDUFzSuMbk'
 app = Flask(__name__)
 app.jinja_env.autoescape = False
 
@@ -21,26 +22,22 @@ def graph():
   # Get form info
   ticker = request.form['ticker'].upper()
   features = request.form.getlist('features')
-
-  # Get the current date
+  print features
+  
   now = datetime.datetime.now()
-
-  # Go back one month to get the start date
   start_date = (now + datetime.timedelta(-30)).strftime('%Y-%m-%d')
-
-  # Today is the end date
   end_date = now.strftime('%Y-%m-%d')
   api_url = 'https://www.quandl.com/api/v3/datasets/WIKI/%s/data.json?api_key=%s&start_date=%s&end_date=%s' % (ticker, api_key, start_date, end_date)
   session = requests.Session()
   session.mount('https://', requests.adapters.HTTPAdapter(max_retries=3))
   raw_data = session.get(api_url)
-
-  # Temporary data frame to parse out data and column names
+  
   temp_df = pd.DataFrame(raw_data.json())
   
   df = pd.DataFrame(data=temp_df['dataset_data']['data'],columns=temp_df['dataset_data']['column_names'])
   
-  # Plot the data given the features checked by the user
+  print df
+
   plot = TimeSeries(df,
               title='Data from Quandle WIKI set for ' + ticker,
               x='Date', y=features, legend=True)
@@ -50,4 +47,4 @@ def graph():
 
 
 if __name__ == '__main__':
-  app.run(port=33507)
+  app.run(port=33507, debug=True)
