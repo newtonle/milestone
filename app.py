@@ -7,8 +7,7 @@ import requests
 import os
 import datetime
 
-#api_key = os.environ['API_KEY']
-api_key = 'PzaxdxNpHYtDUFzSuMbk'
+api_key = os.environ['API_KEY']
 app = Flask(__name__)
 app.jinja_env.autoescape = False
 

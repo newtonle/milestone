@@ -21,7 +21,7 @@ def index():
 def graph():
   # Get form info
   ticker = request.form['ticker'].upper()
-  features = request.form['features']
+  features = request.form.getlist('features')
   print features
   
   now = datetime.datetime.now()
