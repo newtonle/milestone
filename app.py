@@ -21,6 +21,9 @@ def graph():
   # Get form info
   ticker = request.form['ticker'].upper()
   features = request.form.getlist('features')
+  
+  if len(features) == 0:
+    return render_template('graph.html', div='Please check at least one feature.')
 
   # Get the current date
   now = datetime.datetime.now()
@@ -37,6 +40,10 @@ def graph():
 
   # Temporary data frame to parse out data and column names
   temp_df = pd.DataFrame(raw_data.json())
+  
+  # Some error checking
+  if 'dataset_data' not in temp_df:
+    return render_template('graph.html', div='Quandl error. Incorrect ticker input?')
   
   df = pd.DataFrame(data=temp_df['dataset_data']['data'],columns=temp_df['dataset_data']['column_names'])
   
